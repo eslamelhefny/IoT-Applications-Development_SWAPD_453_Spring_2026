@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Send to Node-RED</title>
+</head>
+<body style="font-family:Arial;padding:20px;font-size:18px;background:#111;color:#fff;">
+
+<h2>Send Value to Node-RED</h2>
+
+<label>Node-RED URL:</label><br>
+<input id="url" value="http://192.168.1.100:1880/sensor" 
+       style="width:100%;padding:10px;font-size:16px;margin:8px 0;"><br><br>
+
+<label>X Value:</label><br>
+<input id="val" type="range" min="-10" max="10" step="0.1" value="0"
+       style="width:100%;height:40px;" oninput="document.getElementById('num').textContent=this.value"><br>
+<center><span id="num" style="font-size:36px;font-weight:bold;color:#2d9cdb;">0</span> m/s²</center>
+
+<br>
+<button onclick="send()" style="width:100%;padding:20px;font-size:20px;background:#27c93f;color:#000;border:none;border-radius:10px;font-weight:bold;">
+  📡 SEND
+</button>
+
+<br><br>
+<button onclick="startAuto()" id="autoBtn" style="width:100%;padding:15px;font-size:16px;background:#2d9cdb;color:#fff;border:none;border-radius:10px;">
+  ▶ Auto Send Every 1s
+</button>
+
+<p id="log" style="color:#666;font-size:14px;margin-top:16px;">Ready</p>
+
+<script>
+let iv = null;
+
+function send() {
+  const url = document.getElementById('url').value;
+  const x = parseFloat(document.getElementById('val').value);
+
+  fetch(url, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ x: x })
+  })
+  .then(r => {
+    if(r.ok) document.getElementById('log').innerHTML = '<span style="color:#27c93f">✓ Sent x=' + x + '</span>';
+    else throw new Error('HTTP ' + r.status);
+  })
+  .catch(e => {
+    document.getElementById('log').innerHTML = '<span style="color:#ff5f57">✗ ' + e.message + '</span>';
+  });
+}
+
+function startAuto() {
+  const btn = document.getElementById('autoBtn');
+  if (iv) {
+    clearInterval(iv);
+    iv = null;
+    btn.textContent = '▶ Auto Send Every 1s';
+    btn.style.background = '#2d9cdb';
+  } else {
+    iv = setInterval(send, 1000);
+    btn.textContent = '⏹ Stop Auto';
+    btn.style.background = '#ff5f57';
+  }
+}
+</script>
+</body>
+</html>

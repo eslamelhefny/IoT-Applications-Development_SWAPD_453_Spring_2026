@@ -1,0 +1,262 @@
+[
+    {
+        "id": "a4b87e471cc3811f",
+        "type": "tab",
+        "label": "Sensor"
+    },
+    {
+        "id": "fc4bd265e861e6cb",
+        "type": "inject",
+        "z": "a4b87e471cc3811f",
+        "name": "Test X=5",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "payload": "{\"x\": 5}",
+        "payloadType": "json",
+        "x": 130,
+        "y": 40,
+        "wires": [
+            [
+                "e44325f33b828de9"
+            ]
+        ]
+    },
+    {
+        "id": "3b7677a160455b45",
+        "type": "inject",
+        "z": "a4b87e471cc3811f",
+        "name": "Test X=-3",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "payload": "{\"x\": -3}",
+        "payloadType": "json",
+        "x": 130,
+        "y": 200,
+        "wires": [
+            [
+                "e44325f33b828de9"
+            ]
+        ]
+    },
+    {
+        "id": "dedddee61b1f98f6",
+        "type": "http in",
+        "z": "a4b87e471cc3811f",
+        "name": "Sensor In",
+        "url": "/sensor",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 120,
+        "wires": [
+            [
+                "e44325f33b828de9",
+                "bcf10b1d23ee1e14"
+            ]
+        ]
+    },
+    {
+        "id": "e44325f33b828de9",
+        "type": "function",
+        "z": "a4b87e471cc3811f",
+        "name": "Get X",
+        "func": "msg.payload = msg.payload.x;\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 120,
+        "wires": [
+            [
+                "776c5547bdd76096",
+                "b2a88dd2db561b2c",
+                "4b32688a86383f20"
+            ]
+        ]
+    },
+    {
+        "id": "b2a88dd2db561b2c",
+        "type": "debug",
+        "z": "a4b87e471cc3811f",
+        "name": "Value",
+        "active": true,
+        "tosidebar": true,
+        "complete": "payload",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 510,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "776c5547bdd76096",
+        "type": "ui-gauge",
+        "z": "a4b87e471cc3811f",
+        "name": "Accel X",
+        "group": "449bae90015f62de",
+        "order": 1,
+        "value": "payload",
+        "valueType": "msg",
+        "width": 6,
+        "height": 4,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Accelerometer X",
+        "alwaysShowTitle": false,
+        "units": "m/s²",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "-10",
+                "color": "#ff5f57",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "-3",
+                "color": "#f5a623",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "3",
+                "color": "#27c93f",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "7",
+                "color": "#f5a623",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": -10,
+        "max": 10,
+        "sizeThickness": "",
+        "sizeGap": "",
+        "sizeKeyThickness": "",
+        "className": "",
+        "x": 510,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bcf10b1d23ee1e14",
+        "type": "http response",
+        "z": "a4b87e471cc3811f",
+        "name": "OK",
+        "statusCode": "200",
+        "headers": {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "Content-Type"
+        },
+        "x": 330,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "4b32688a86383f20",
+        "type": "ui_gauge",
+        "z": "a4b87e471cc3811f",
+        "name": "",
+        "group": "42d210e9825ad99e",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "gauge",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": 10,
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 770,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "449bae90015f62de",
+        "type": "ui-group",
+        "name": "Group 2",
+        "page": "p1",
+        "width": 6,
+        "height": 1,
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "42d210e9825ad99e",
+        "type": "ui_group",
+        "name": "Group 1",
+        "tab": "cb0857f9701e654c",
+        "order": 1,
+        "disp": true,
+        "width": 6
+    },
+    {
+        "id": "p1",
+        "type": "ui-page",
+        "name": "Dashboard",
+        "ui": "ui1",
+        "path": "/dashboard",
+        "layout": "grid",
+        "order": 1
+    },
+    {
+        "id": "cb0857f9701e654c",
+        "type": "ui_tab",
+        "name": "Tab 1",
+        "icon": "dashboard",
+        "order": 1
+    },
+    {
+        "id": "ui1",
+        "type": "ui-base",
+        "name": "UI",
+        "path": "/dashboard",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-control",
+            "ui-notification"
+        ]
+    },
+    {
+        "id": "b2487329d68eb24f",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "@flowfuse/node-red-dashboard": "1.30.2",
+            "node-red-dashboard": "3.6.6"
+        }
+    }
+]
